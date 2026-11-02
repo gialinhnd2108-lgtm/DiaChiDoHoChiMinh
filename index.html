@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Địa Chỉ Đỏ Ở Sài Gòn - Triển Lãm Bảo Tàng Số</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display (Serif sang trọng) & Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            800: '#58111e',
+                            900: '#3f0b15',
+                            950: '#28060d',
+                            DEFAULT: '#6b1426',
+                            light: '#8c1d34',
+                        },
+                        cream: {
+                            50: '#fffdfa',
+                            100: '#fdfbf7',
+                            200: '#f7f1e5',
+                            300: '#efe5d2',
+                            DEFAULT: '#fdfbf7',
+                        },
+                        gold: {
+                            400: '#e5c158',
+                            DEFAULT: '#c59b27',
+                            dark: '#9a7719',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Be Vietnam Pro', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #fdfbf7;
+            color: #2b2623;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f7f1e5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6b1426;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8c1d34;
+        }
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #e5c158 0%, #c59b27 50%, #9a7719 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-burgundy-gradient {
+            background: linear-gradient(135deg, #6b1426 0%, #3f0b15 100%);
+        }
+        /* Interactive Map Pin Animations */
+        .map-pin {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .map-pin:hover {
+            transform: scale(1.25) translateY(-6px);
+        }
+        .pulse-ring {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.4); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+        .historical-img {
+            filter: sepia(0.15) contrast(1.05);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .historical-img:hover {
+            filter: sepia(0) contrast(1);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-burgundy selection:text-gold-400">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-burgundy-900/95 backdrop-blur-md border-b border-gold/30 shadow-lg text-cream-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center bg-burgundy p-1 shadow-inner group-hover:border-gold-400 transition-colors">
+                    <!-- Historical Decorative SVG Emblem -->
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-gold fill-current">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2,2"/>
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <polygon points="50,15 59,38 83,38 64,52 71,76 50,61 29,76 36,52 17,38 41,38" fill="#c59b27"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif font-bold text-xl sm:text-2xl tracking-wide text-gold-gradient uppercase leading-none">ĐỊA CHỈ ĐỎ</span>
+                    <span class="text-xs tracking-widest text-cream-300/80 uppercase mt-0.5">SÀI GÒN - TP. HỒ CHÍ MINH</span>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+                <a href="#intro" class="hover:text-gold transition-colors py-1 border-b-2 border-transparent hover:border-gold">Lời Ngỏ</a>
+                <a href="#map-section" class="hover:text-gold transition-colors py-1 border-b-2 border-transparent hover:border-gold">Bản Đồ</a>
+                <a href="#explore-section" class="hover:text-gold transition-colors py-1 border-b-2 border-transparent hover:border-gold">Khám Phá Di Tích</a>
+                <a href="#summary-section" class="hover:text-gold transition-colors py-1 border-b-2 border-transparent hover:border-gold">Tổng Kết</a>
+            </nav>
+
+            <!-- Quick Action Button -->
+            <a href="#explore-section" class="hidden sm:inline-flex items-center px-4 py-2 rounded-full border border-gold/60 bg-burgundy hover:bg-burgundy-light text-gold text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-gold/20">
+                <i class="fa-solid fa-compass mr-2"></i> Trải Nghiệm
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 1. HERO & LỜI NGỎ -->
+        <section id="intro" class="relative bg-burgundy-950 text-cream-100 py-24 overflow-hidden border-b border-gold/20">
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#c59b27_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/40 bg-burgundy/80 text-gold text-xs font-medium uppercase tracking-widest mb-6">
+                    <i class="fa-solid fa-landmark text-xs"></i> Không Gian Triển Lãm Số
+                </div>
+                
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-cream-50 leading-tight mb-6">
+                    HÀNH TRÌNH TÌM VỀ <br class="hidden sm:inline"/><span class="text-gold-gradient">ĐỊA CHỈ ĐỎ SÀI GÒN</span>
+                </h1>
+
+                <div class="w-24 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+
+                <div class="bg-burgundy-900/60 backdrop-blur-sm border border-gold/30 p-6 sm:p-10 rounded-2xl shadow-2xl max-w-3xl mx-auto text-left leading-relaxed text-cream-200 space-y-4">
+                    <h2 class="font-serif text-2xl text-gold font-bold text-center mb-4">1. Lời Ngỏ</h2>
+                    <p class="text-base sm:text-lg font-light text-justify">
+                        Mỗi <strong class="text-gold font-semibold">Địa chỉ đỏ</strong> ở TP. Hồ Chí Minh là một dấu tích kiên cường của lịch sử, gắn liền với những sự kiện, hoạt động cách mạng và tinh thần đấu tranh bất khuất của các thế hệ đi trước.
+                    </p>
+                    <p class="text-base sm:text-lg font-light text-justify">
+                        Không gian triển lãm <strong class="text-gold font-semibold">Địa chỉ đỏ ở Sài Gòn</strong> ra đời nhằm giới thiệu và tái hiện những địa điểm lịch sử ấy thông qua hình thức bảo tàng số trực quan, sinh động. Qua đó, giúp công chúng cùng thế hệ trẻ có cơ hội khám phá quá khứ, tri ân những hy sinh to lớn và tiếp nối truyền thống cách mạng vẻ vang.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. BẢN ĐỒ ĐỊA CHỈ ĐỎ (INTERACTIVE MAP) -->
+        <section id="map-section" class="py-16 bg-cream-100 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <span class="text-burgundy font-semibold uppercase tracking-widest text-xs">Trực quan hóa không gian</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-burgundy-900 mt-1">2. Bản Đồ Địa Chỉ Đỏ Sài Gòn</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-sm sm:text-base">
+                        Nhấp vào từng biểu tượng di tích trên bản đồ bên dưới để chuyển nhanh đến thông tin chi tiết và hình ảnh của địa điểm đó.
+                    </p>
+                </div>
+
+                <!-- Map Container -->
+                <div class="relative w-full rounded-2xl overflow-hidden border-2 border-gold/40 shadow-2xl bg-cream-200">
+                    <div class="relative w-full h-[480px] sm:h-[550px] bg-[#f2ebd9] overflow-hidden flex items-center justify-center">
+                        <svg class="absolute inset-0 w-full h-full opacity-40 text-blue-900/20 stroke-current" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M -50,150 Q 200,80 350,250 T 600,380 T 850,550" stroke-width="32" stroke-linecap="round"/>
+                            <path d="M 120,0 Q 250,120 280,300 T 450,600" stroke-width="16" stroke-linecap="round"/>
+                            <path d="M 0,350 Q 300,400 500,500 T 800,520" stroke-width="20" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+<!-- Pin 1: Khám Lớn -->
+                        <div class="map-pin absolute top-[42%] left-[52%] -translate-x-1/2 -translate-y-1/2 group" onclick="scrollToSite('site-1')">
+                            <div class="relative flex flex-col items-center">
+                                <span class="absolute -top-1 w-8 h-8 rounded-full bg-burgundy/40 pulse-ring"></span>
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                    <i class="fa-solid fa-building-columns text-sm"></i>
+                                </div>
+                                <span class="mt-1 px-2.5 py-1 rounded-md bg-burgundy-900/90 text-gold text-xs font-semibold shadow-md whitespace-nowrap border border-gold/30">
+                                    1. Khám Lớn Sài Gòn
+                                </span>
+                            </div>
+                        </div>
+                         <!-- Pin 2: Tòa Đô Chánh -->
+                        <div class="map-pin absolute top-[48%] left-[48%] -translate-x-1/2 -translate-y-1/2 group" onclick="scrollToSite('site-2')">
+                            <div class="relative flex flex-col items-center">
+                                <span class="absolute -top-1 w-8 h-8 rounded-full bg-burgundy/40 pulse-ring"></span>
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                    <i class="fa-solid fa-city text-sm"></i>
+                                </div>
+                                <span class="mt-1 px-2.5 py-1 rounded-md bg-burgundy-900/90 text-gold text-xs font-semibold shadow-md whitespace-nowrap border border-gold/30">
+                                    2. Tòa Đô Chánh Sài Gòn
+                                </span>
+                            </div>
+                        </div>
+                         <!-- Pin 3: Ngã Ba Giồng -->
+                        <div class="map-pin absolute top-[22%] left-[26%] -translate-x-1/2 -translate-y-1/2 group" onclick="scrollToSite('site-3')">
+                            <div class="relative flex flex-col items-center">
+                                <span class="absolute -top-1 w-8 h-8 rounded-full bg-burgundy/40 pulse-ring"></span>
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                    <i class="fa-solid fa-monument text-sm"></i>
+                                </div>
+                                <span class="mt-1 px-2.5 py-1 rounded-md bg-burgundy-900/90 text-gold text-xs font-semibold shadow-md whitespace-nowrap border border-gold/30">
+                                    3. Ngã Ba Giồng (Hóc Môn)
+                                </span>
+                            </div>
+                        </div>
+                           <!-- Pin 4: Hầm B -->
+                        <div class="map-pin absolute top-[56%] left-[42%] -translate-x-1/2 -translate-y-1/2 group" onclick="scrollToSite('site-4')">
+                            <div class="relative flex flex-col items-center">
+                                <span class="absolute -top-1 w-8 h-8 rounded-full bg-burgundy/40 pulse-ring"></span>
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                    <i class="fa-solid fa-print text-sm"></i>
+                                </div>
+                                <span class="mt-1 px-2.5 py-1 rounded-md bg-burgundy-900/90 text-gold text-xs font-semibold shadow-md whitespace-nowrap border border-gold/30">
+                                    4. Cơ Sở In Hầm B
+                                </span>
+                            </div>
+                        </div>
+<!-- Pin 5: Láng Le - Bàu Cò -->
+                        <div class="map-pin absolute top-[70%] left-[28%] -translate-x-1/2 -translate-y-1/2 group" onclick="scrollToSite('site-5')">
+                            <div class="relative flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                <span class="absolute -top-1 w-8 h-8 rounded-full bg-burgundy/40 pulse-ring"></span>
+                                <div class="w-10 h-10 rounded-full bg-burgundy border-2 border-gold shadow-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-burgundy transition-colors">
+                                    <i class="fa-solid fa-shield-halved text-sm"></i>
+                                </div>
+                                <span class="mt-1 px-2.5 py-1 rounded-md bg-burgundy-900/90 text-gold text-xs font-semibold shadow-md whitespace-nowrap border border-gold/30">
+                                    5. Láng Le - Bàu Cò
+                                     </span>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-4 right-4 bg-burgundy-900/80 p-2 rounded-full border border-gold/40 text-gold">
+                            <i class="fa-solid fa-compass text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 3. KHÁM PHÁ CÁC ĐỊA CHỈ ĐỎ -->
+        <section id="explore-section" class="py-16 bg-cream-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-12">
+                    <span class="text-burgundy font-semibold uppercase tracking-widest text-xs">Danh mục bảo tồn ký ức</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-burgundy-900 mt-1">3. Khám Phá Các Địa Chỉ Đỏ</h2>
+                    <p class="text-gray-600 mt-2 text-sm sm:text-base">Nhấp vào từng địa điểm để xem chi tiết lịch sử và hình ảnh tư liệu chuẩn xác</p>
+                </div>
+
+                <div class="space-y-12">
+
+                    <!-- PHẦN I: KHÁM LỚN SÀI GÒN -->
+                    <article id="site-1" class="bg-cream-100 border-2 border-gold/30 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-gold">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div class="lg:col-span-5 relative min-h-[280px] lg:min-h-full">
+                                <!-- Ảnh tư liệu Khám Lớn Sài Gòn thời Pháp thuộc -->
+                                <img src="https://images.openai.com/static-rsc-4/4KaqX3mLWGdNzWCTjytmG0gmuUr9uGFVkenVaaP76ZyfqdCqAtuNngDCiqmyGqBay0Obm66_6SSJ9LSm_TbVtQuF4uhik2ZbdkvtlwSf4nmeqWTBrcxCL5olpAcUbZMUeB2a8OUCQkM7jGQnMt_bvikJd2jM7_ZKqkzcbVbvqq0?purpose=inline" 
+                                     alt="Ảnh tư liệu Khám Lớn Sài Gòn thời Pháp thuộc (Maison Centrale de Saïgon)" 
+                                     class="w-full h-full object-cover historical-img"
+                                     onerror="this.src='https://placehold.co/800x600/3f0b15/c59b27?text=Kham+Lon+Saigon+(Maison+Centrale)'"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-burgundy-950/80 via-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-burgundy-950/20"></div>
+                                <span class="absolute top-4 left-4 bg-burgundy text-gold font-serif font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-gold/40">
+                                    PHẦN I
+                                </span>
+                                <span class="absolute bottom-3 left-3 bg-burgundy-950/80 text-cream-100 text-[11px] px-2.5 py-1 rounded border border-gold/20">
+                                    <i class="fa-solid fa-camera mr-1 text-gold"></i>Ảnh tư liệu: Khám Lớn Sài Gòn
+                                </span>
+                            </div>
+                            <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-burgundy-900">KHÁM LỚN SÀI GÒN</h3>
+                                    <p class="text-gold-dark font-medium text-sm mt-1">Maison Centrale de Saïgon</p>
+                                    
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>43 Nguyễn Du, Q.1</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-calendar mr-1"></i>1865 – 1890</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-award mr-1"></i>Ký ức lịch sử đô thị</span>
+                                    </div>
+                                    <p class="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                                        Nhà tù trung tâm lớn nhất Nam Kỳ thời thực dân Pháp. Nơi từng giam giữ nhiều chiến sĩ cách mạng, nhà yêu nước kiên trung như Lý Tự Trọng, Nguyễn Thị Minh Khai, Nguyễn Văn Cừ, Hà Huy Tập, Phan Đăng Lưu...
+                                    </p>
+                                </div>
+
+                                <button onclick="toggleAccordion('acc-1')" class="mt-6 inline-flex items-center justify-between px-5 py-3 rounded-xl bg-burgundy text-gold font-semibold text-sm hover:bg-burgundy-light transition-colors w-full sm:w-auto">
+                                    <span id="btn-text-acc-1">Xem chi tiết di tích & Nhân vật</span>
+                                    <i id="icon-acc-1" class="fa-solid fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Detail Section -->
+                        <div id="acc-1" class="hidden border-t border-gold/30 bg-cream-50 p-6 sm:p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-cream-200/70 p-5 rounded-xl border border-gold/20">
+                                    <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-3">
+                                        <i class="fa-solid fa-circle-info mr-2"></i>1. Thông Tin Khái Quát
+                                    </h4>
+                                    <ul class="text-sm space-y-2 text-gray-700">
+                                        <li><strong>Tên di tích:</strong> Khám Lớn Sài Gòn (Maison Centrale de Saïgon)</li>
+                                        <li><strong>Địa chỉ:</strong> Số 43 Nguyễn Du, P. Bến Nghé, Q.1, TP.HCM.</li>
+                                        <li><strong>Thời gian xây dựng:</strong> 1865–1890.</li>
+                                        <li><strong>Xếp hạng:</strong> Thuộc danh mục bảo tồn ký ức lịch sử đô thị TP.HCM.</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-cream-200/70 p-5 rounded-xl border border-gold/20">
+                                    <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-3">
+                                        <i class="fa-solid fa-compass-drafting mr-2"></i>2. Kiến Trúc
+                                    </h4>
+                                    <p class="text-sm text-gray-700 leading-relaxed">
+                                        Xây dựng theo kiến trúc nhà tù thuộc địa kiên cố, tường gạch dày, phòng giam u tối. Công trình bị phá dỡ năm 1953 (nay là Thư viện Khoa học Tổng hợp TP.HCM).
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 3. Bối cảnh lịch sử -->
+                            <div class="bg-cream-200/40 p-5 rounded-xl border border-gold/20">
+                                <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-3">
+                                    <i class="fa-solid fa-book-bookmark mr-2"></i>3. Bối Cảnh Lịch Sử
+                                </h4>
+                                <p class="text-sm text-gray-700 leading-relaxed">
+                                    Khám Lớn là công cụ đàn áp tàn bạo của thực dân Pháp tại Nam Kỳ, nhưng đồng thời đã trở thành trường học cách mạng trui rèn khí tiết kiên trung của các chiến sĩ yêu nước.
+                                </p>
+                            </div>
+
+                            <!-- 4. Timeline các sự kiện -->
+                            <div>
+                                <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-4">
+                                    <i class="fa-solid fa-timeline mr-2"></i>4. Mốc Sự Kiện Lịch Sử
+                                </h4>
+                                <div class="relative border-l-2 border-burgundy/30 ml-4 space-y-4">
+                                    <div class="relative pl-6">
+                                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-burgundy border-2 border-gold"></div>
+                                        <span class="text-xs font-bold text-gold-dark uppercase">1865 – 1890</span>
+                                        <p class="text-xs sm:text-sm text-gray-700">Khởi công và hoàn thành nhà tù trung tâm lớn nhất Nam Kỳ.</p>
+                                    </div>
+                                    <div class="relative pl-6">
+                                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-burgundy border-2 border-gold"></div>
+                                        <span class="text-xs font-bold text-gold-dark uppercase">14/02/1916</span>
+                                        <p class="text-xs sm:text-sm text-gray-700">Cuộc phá ngục giải cứu Phan Xích Long bất thành; 57 nghĩa sĩ bị xử bắn.</p>
+                                    </div>
+                                    <div class="relative pl-6">
+                                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-burgundy border-2 border-gold"></div>
+                                        <span class="text-xs font-bold text-gold-dark uppercase">21/11/1931</span>
+                                        <p class="text-xs sm:text-sm text-gray-700">Anh hùng Lý Tự Trọng hy sinh lẫm liệt tại Khám Lớn năm 17 tuổi.</p>
+                                    </div>
+                                    <div class="relative pl-6">
+                                        <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-burgundy border-2 border-gold"></div>
+                                        <span class="text-xs font-bold text-gold-dark uppercase">25/08/1945</span>
+                                        <p class="text-xs sm:text-sm text-gray-700">Cách mạng Tháng Tám phá cửa Khám Lớn, giải thoát tù nhân chính trị.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Ảnh Nhân vật lịch sử tiêu biểu Khám Lớn -->
+                            <div>
+                                <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-4">
+                                    <i class="fa-solid fa-users-viewfinder mr-2"></i>5. Nhân Vật Lịch Sử Tiêu Biểu
+                                </h4>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                                    <!-- Lý Tự Trọng -->
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center flex flex-col items-center">
+                                        <img src="https://images.openai.com/static-rsc-4/N2m1PFjcAhuxev2SjwOoKNrJpzAyD8RpD1AukOWW2LXq4NCCYHP-EWSeuqLsGo_6Bppe42W4p8IeIN7SmKEireXI7QoV5xTdscEz2tLaC_zjUEIX1N5bmR6K38QSrmtLI_Gvhl3y1brx1_x_egbXeY7aRnHlGyT6zxOEcQ6InLQ?purpose=inline" 
+                                             alt="Chân dung Anh hùng Lý Tự Trọng" 
+                                             class="w-24 h-32 object-cover rounded-lg border border-gold shadow-md mb-2"
+                                             onerror="this.src='https://placehold.co/200x260/3f0b15/c59b27?text=Ly+Tu+Trong'"/>
+                                        <h5 class="font-bold text-burgundy text-xs sm:text-sm">Lý Tự Trọng</h5>
+                                        <p class="text-[11px] text-gray-600 mt-1">Anh hùng trẻ tuổi (1914–1931)</p>
+                                    </div>
+                                    <!-- Nguyễn Thị Minh Khai -->
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center flex flex-col items-center">
+                                        <img src="https://images.openai.com/static-rsc-4/w-F4DOelC5NCWWcE6H41NrZKttkqfbtPvHABXbBhAyI2UoZYAy_RgPhwfxeXw-l38-RR-BXd2nr3FLquwDy_p8dLxAfPblynUo0bilJWWSInu4iltcacC23kWn6W8qPp1GXjGzT4iBtVSuvtQ7RNbMfwtZEkYIO6bS3_vZxXzkM?purpose=inline" 
+                                             alt="Chân dung Nữ anh hùng Nguyễn Thị Minh Khai" 
+                                             class="w-24 h-32 object-cover rounded-lg border border-gold shadow-md mb-2"
+                                             onerror="this.src='https://placehold.co/200x260/3f0b15/c59b27?text=Nguyen+Thi+Minh+Khai'"/>
+                                        <h5 class="font-bold text-burgundy text-xs sm:text-sm">Nguyễn Thị Minh Khai</h5>
+                                        <p class="text-[11px] text-gray-600 mt-1">Bí thư Thành ủy Sài Gòn – Chợ Lớn</p>
+                                    </div>
+                                    <!-- Nguyễn Văn Cừ -->
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center flex flex-col items-center">
+                                        <img src="https://images.openai.com/static-rsc-4/-7PHi-Ut51MvYdVgQ_NfkfcgPa6AKlnMq9PtIRtVFddGH-X12FWstXs7VrJ2WAAZ3VhPYWXFubj8m4ouMBPTk09QNv5jsihk_sk3V_z3X4SEu8u28aZ6e7iAnfNm9b8TcTcelgWbb4RiFwz4AvzoohHtFggul7Vj3Em8apTiKeY?purpose=inline" 
+                                             alt="Chân dung Tổng Bí thư Nguyễn Văn Cừ" 
+                                             class="w-24 h-32 object-cover rounded-lg border border-gold shadow-md mb-2"
+                                             onerror="this.src='https://placehold.co/200x260/3f0b15/c59b27?text=Nguyen+Van+Cu'"/>
+                                        <h5 class="font-bold text-burgundy text-xs sm:text-sm">Nguyễn Văn Cừ</h5>
+                                        <p class="text-[11px] text-gray-600 mt-1">Tổng Bí thư Đảng (1912–1941)</p>
+                                    </div>
+                                    <!-- Hà Huy Tập -->
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center flex flex-col items-center">
+                                        <img src="https://images.openai.com/static-rsc-4/uJmDJ7htBioO1-wsZL1aEXfAKbkwbY6U69dfFMx3pMLUx9yWj2MGmJIyg3us0e6KEwau8ojK10PRmzdZsXIJ-GZVGamPt8N3-0V_0Ydgyz1wzYboMU6gOtdcjbcB97SDHb7lijizLFV9n9pQNkHvXwpqyXiVAnOtXpFdBezCYmQ?purpose=inline" 
+                                             alt="Chân dung Tổng Bí thư Hà Huy Tập" 
+                                             class="w-24 h-32 object-cover rounded-lg border border-gold shadow-md mb-2"
+                                             onerror="this.src='https://placehold.co/200x260/3f0b15/c59b27?text=Ha+Huy+Tap'"/>
+                                        <h5 class="font-bold text-burgundy text-xs sm:text-sm">Hà Huy Tập</h5>
+                                        <p class="text-[11px] text-gray-600 mt-1">Tổng Bí thư Đảng (1906–1941)</p>
+                                    </div>
+                                    <!-- Phan Đăng Lưu -->
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center flex flex-col items-center">
+                                        <img src="https://images.openai.com/static-rsc-4/4tQVJRoPY2xO3Pi6KPhnG7J_93ztd061YtECUby4P0kwjeCxVruezs6WQzNc77oD9fkr-prw15HTmwwl2ZxyjkmxbgD6XK-UfXWp_TYpmUMx69ZNdxlh9iuS1xUAVh0Vn-PtRWgGEa2ezdDF6r5PEykLCKZjDX1PwmiXPJtWa_Q?purpose=inline" 
+                                             alt="Chân dung Nhà cách mạng Phan Đăng Lưu" 
+                                             class="w-24 h-32 object-cover rounded-lg border border-gold shadow-md mb-2"
+                                             onerror="this.src='https://placehold.co/200x260/3f0b15/c59b27?text=Phan+Dang+Luu'"/>
+                                        <h5 class="font-bold text-burgundy text-xs sm:text-sm">Phan Đăng Lưu</h5>
+                                        <p class="text-[11px] text-gray-600 mt-1">Nhà lãnh đạo cách mạng tiêu biểu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PHẦN II: TÒA ĐÔ CHÁNH SÀI GÒN -->
+                    <article id="site-2" class="bg-cream-100 border-2 border-gold/30 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-gold">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div class="lg:col-span-5 relative min-h-[280px] lg:min-h-full">
+                                <!-- Ảnh chính: Trụ sở HĐND & UBND TP.HCM nhìn từ đường Nguyễn Huệ -->
+                                <img src="https://images.openai.com/static-rsc-4/B9ZXV87ByqcqGgGD5MPEPZS3kDW-E1TCkSEqsBPmw8M-ZegbcpQ988CM8bOIOQif6FmtVvHiLN6Eundi4q_CK8b-RG7ZLEvJ2EzjlFxjf_4MfLAasXUzLHb9a1PUYGn6t53Tb6webM9XOhaHv93gcZzulTrAVZEGKII_qqG7OaE?purpose=inline" 
+                                     alt="Trụ sở HĐND và UBND TP.HCM (Tòa Đô Chánh Sài Gòn)" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/800x600/3f0b15/c59b27?text=Toa+Do+Chanh+Saigon'"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-burgundy-950/80 via-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-burgundy-950/20"></div>
+                                <span class="absolute top-4 left-4 bg-burgundy text-gold font-serif font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-gold/40">
+                                    PHẦN II
+                                </span>
+                                <span class="absolute bottom-3 left-3 bg-burgundy-950/80 text-cream-100 text-[11px] px-2.5 py-1 rounded border border-gold/20">
+                                    <i class="fa-solid fa-camera mr-1 text-gold"></i>Trụ sở HĐND & UBND TP.HCM
+                                </span>
+                            </div>
+                            <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-burgundy-900">TÒA ĐÔ CHÁNH SÀI GÒN</h3>
+                                    <p class="text-gold-dark font-medium text-sm mt-1">Nay là Trụ sở Hội đồng nhân dân & Ủy ban nhân dân TP. Hồ Chí Minh</p>
+                                    
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>86 Lê Thánh Tôn, Q.1</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-calendar mr-1"></i>1898 – 1909</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-award mr-1"></i>Di tích Kiến trúc Nghệ thuật Cấp Quốc Gia</span>
+                                    </div>
+                                    <p class="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                                        Công trình kiến trúc Phục hưng Pháp tiêu biểu cuối thế kỷ XIX, trung tâm quyền lực hành chính đô thị và là nơi ghi dấu cuộc giành chính quyền vang dội tháng 8/1945 cùng các phong trào đấu tranh chính trị nội thành.
+                                    </p>
+                                </div>
+
+                                <button onclick="toggleAccordion('acc-2')" class="mt-6 inline-flex items-center justify-between px-5 py-3 rounded-xl bg-burgundy text-gold font-semibold text-sm hover:bg-burgundy-light transition-colors w-full sm:w-auto">
+                                    <span id="btn-text-acc-2">Xem kiến trúc, tư liệu & Nhân vật</span>
+                                    <i id="icon-acc-2" class="fa-solid fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Detail Section -->
+                        <div id="acc-2" class="hidden border-t border-gold/30 bg-cream-50 p-6 sm:p-8 space-y-8">
+                            <!-- Ảnh kiến trúc & Tư liệu Cách mạng Tháng Tám -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <div class="overflow-hidden rounded-xl border border-gold/40 shadow-md">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS-91Lxi94eZhIrI8ncV4SQLqwK_rXWQHA9BiBCLYmy5M6BCTMMNp5uys&s=10" 
+                                             alt="Kiến trúc Tháp đồng hồ và Phù điêu Phục hưng Pháp Tòa Xã Tây" 
+                                             class="w-full h-48 object-cover historical-img"
+                                             onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=Clock+Tower+Architecture'"/>
+                                    </div>
+                                    <p class="text-xs text-gray-600 italic text-center">Chi tiết kiến trúc tháp đồng hồ & phù điêu trang sáng chạm khắc nghệ thuật phong cách Phục hưng Pháp.</p>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="overflow-hidden rounded-xl border border-gold/40 shadow-md">
+                                        <img src="https://tapchimythuat.vn/wp-content/uploads/2025/08/image-24.jpg" 
+                                             alt="Ảnh tư liệu Quần chúng nhân dân Sài Gòn tập hợp giành chính quyền tháng 8/1945" 
+                                             class="w-full h-48 object-cover historical-img"
+                                             onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=August+Revolution+1945'"/>
+                                    </div>
+                                    <p class="text-xs text-gray-600 italic text-center">Ảnh tư liệu: Quần chúng nhân dân Sài Gòn - Gia Định tập hợp giành chính quyền ngày 25/08/1945.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-cream-200/70 p-5 rounded-xl border border-gold/20 space-y-2">
+                                <h4 class="font-serif text-lg font-bold text-burgundy"><i class="fa-solid fa-timeline mr-2"></i>Mốc Sự Kiện Quan Trọng</h4>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                    <li><strong>1898 - 1909:</strong> Khởi công và hoàn thiện Hôtel de Ville theo bản thiết kế KTS Falke.</li>
+                                    <li><strong>25/08/1945:</strong> Nhân dân Nam Bộ mít tinh giành chính quyền, tiếp quản Tòa Xã Tây.</li>
+                                    <li><strong>19/03/1950:</strong> Hàng vạn học sinh, sinh viên tuần hành chống can thiệp quân sự Mỹ và chiến pháp Pháp.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Ảnh Nhân vật tiêu biểu -->
+                            <div>
+                                <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-4">
+                                    <i class="fa-solid fa-users mr-2"></i>Nhân Vật Lịch Sử Gắn Liền
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="flex items-center gap-4 bg-cream-200/80 p-3 rounded-xl border border-gold/30">
+                                        <img src="https://images.openai.com/static-rsc-4/CWS8ThWa8woRlLPEFZA7fwjbu3SYA2iDmZ7vA6EsZcOrTvb1bnf77FiBWsXeCJ0EAehInZbRr2f4xcgif_sWWvcI78UVv50p7E9p_RcYPxPn1VeoxyBjqsSu2ZsxLhGFwZsBq3KtV3djdulg_CRw5k0NJ16L0ZbHsNxBAwC0hI4?purpose=inline" 
+                                             alt="Chân dung Giáo sư Trần Văn Giàu" 
+                                             class="w-20 h-24 object-cover rounded-lg border border-gold shadow"
+                                             onerror="this.src='https://placehold.co/160x200/3f0b15/c59b27?text=Tran+Van+Giau'"/>
+                                        <div>
+                                            <h5 class="font-bold text-burgundy text-sm">GS. Trần Văn Giàu</h5>
+                                            <p class="text-xs text-gray-600 mt-1">Chủ tịch Ủy ban Kháng chiến Nam Bộ, nhà lãnh đạo giành chính quyền năm 1945 tại Sài Gòn.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4 bg-cream-200/80 p-3 rounded-xl border border-gold/30">
+                                        <img src="https://images.openai.com/static-rsc-4/sFsyxq3m-Ls0Maxo48ac6BdFSuas6lVeBQ9XbyjL44_7z39cuiDXq_AJosq9QIlat9boiqc5bmwOkfcp-TRZC-b7KXG-lIrFMyZNE7z4t5A7gLu6_8lPw1S-CiOMlb7k_PDNMc5E7wEd51hQ6l9s7e0lNfkh5QXCijRtEU-nX9I?purpose=inline" 
+                                             alt="Chân dung Kiến trúc师 Huỳnh Tấn Phát" 
+                                             class="w-20 h-24 object-cover rounded-lg border border-gold shadow"
+                                             onerror="this.src='https://placehold.co/160x200/3f0b15/c59b27?text=Huynh+Tan+Phat'"/>
+                                        <div>
+                                            <h5 class="font-bold text-burgundy text-sm">KTS. Huỳnh Tấn Phát</h5>
+                                            <p class="text-xs text-gray-600 mt-1">Kiến trúc sư, nhà hoạt động cách mạng kiệt xuất chỉ đạo phong trào đấu tranh đô thị.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PHẦN III: KHU DI TÍCH LỊCH SỬ NGÃ BA GIỒNG -->
+                    <article id="site-3" class="bg-cream-100 border-2 border-gold/30 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-gold">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div class="lg:col-span-5 relative min-h-[280px] lg:min-h-full">
+                                <!-- Ảnh chính: Tượng đài Ngã Ba Giồng -->
+                                <img src="https://hoanhap.vn/uploads/photos/53/Thuanvan3/64ec2f96303f3.jpg" 
+                                     alt="Tượng đài Tưởng niệm các chiến sĩ Khởi nghĩa Nam Kỳ tại Ngã Ba Giồng" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/800x600/3f0b15/c59b27?text=Tuong+Dai+Nga+Ba+Giong'"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-burgundy-950/80 via-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-burgundy-950/20"></div>
+                                <span class="absolute top-4 left-4 bg-burgundy text-gold font-serif font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-gold/40">
+                                    PHẦN III
+                                </span>
+                                <span class="absolute bottom-3 left-3 bg-burgundy-950/80 text-cream-100 text-[11px] px-2.5 py-1 rounded border border-gold/20">
+                                    <i class="fa-solid fa-camera mr-1 text-gold"></i>Tượng đài Ngã Ba Giồng (Hóc Môn)
+                                </span>
+                            </div>
+                            <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-burgundy-900">KHU DI TÍCH LỊCH SỬ NGÃ BA GIỒNG</h3>
+                                    <p class="text-gold-dark font-medium text-sm mt-1">Trường bắn Ngã Ba Giồng (Hóc Môn)</p>
+                                    
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>1460 Phan Văn Hớn, Hóc Môn</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-award mr-1"></i>Di tích Lịch sử Cấp Quốc Gia (2002)</span>
+                                    </div>
+                                    <p class="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                                        Pháp trường khốc liệt nơi thực dân Pháp thi hành án tử hình các đồng chí lãnh đạo Trung ương và Xứ ủy Nam Kỳ sau Khởi nghĩa Nam Kỳ 1940. Biểu tượng bất tử của lòng trung kiên bất khuất.
+                                    </p>
+                                </div>
+
+                                <button onclick="toggleAccordion('acc-3')" class="mt-6 inline-flex items-center justify-between px-5 py-3 rounded-xl bg-burgundy text-gold font-semibold text-sm hover:bg-burgundy-light transition-colors w-full sm:w-auto">
+                                    <span id="btn-text-acc-3">Xem khuôn viên & Các Anh hùng hy sinh</span>
+                                    <i id="icon-acc-3" class="fa-solid fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Detail Section -->
+                        <div id="acc-3" class="hidden border-t border-gold/30 bg-cream-50 p-6 sm:p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT3VxP8ktvOzgIcaWYmajw8e2Bp-iGGf9H53CuSHHDg-r5Tz1e_" 
+                                         alt="Nhà bia ghi danh di tích Ngã Ba Giồng" 
+                                         class="w-full h-44 object-cover rounded-xl border border-gold/40 shadow"
+                                         onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=Stele+House+Nga+Ba+Giong'"/>
+                                    <p class="text-xs text-gray-600 italic text-center">Không gian trang nghiêm Nhà bia ghi danh các anh hùng liệt sĩ.</p>
+                                </div>
+                                <div class="bg-burgundy-950 text-cream-100 p-5 rounded-xl border border-gold/40 flex flex-col justify-center">
+                                    <h5 class="font-serif text-gold font-bold mb-2"><i class="fa-solid fa-star mr-2"></i>Ngày 28/08/1941</h5>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-cream-200">
+                                        Tại pháp trường Ngã Ba Giồng, thực dân Pháp đã xử bắn các nhà lãnh đạo kiệt xuất của Cách mạng Việt Nam: Võ Văn Tần, Nguyễn Văn Cừ, Hà Huy Tập, Nguyễn Hữu Tiến và Phan Đăng Lưu.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Anh Hùng Hy Sinh tại Ngã Ba Giồng -->
+                            <div>
+                                <h4 class="font-serif text-lg font-bold text-burgundy border-b border-burgundy/20 pb-2 mb-4">
+                                    <i class="fa-solid fa-monument mr-2"></i>Các Nhà Lãnh Đạo Hy Sinh Tại Pháp Trường Ngã Ba Giồng
+                                </h4>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center">
+                                        <img src="https://images.openai.com/static-rsc-4/jgdQfWrZ3h_Eaod51aoeIAEriECcuyc9qLIlAqieDeZCIGvM8ToIuR1MBXvcOrfKkGvpK6aoOG6vkGio7dKy2U6Hy84eftv5yzAaVeNcriZYaXa-Io3HEVKuMgvCc_-RxYWuAVcEL3GGkzVaAytWLs2ykY5KyJ2ZB-2aYwgMudQ?purpose=inline" 
+                                             alt="Chân dung Võ Văn Tần" 
+                                             class="w-20 h-28 object-cover rounded-md mx-auto border border-gold mb-2"
+                                             onerror="this.src='https://placehold.co/180x240/3f0b15/c59b27?text=Vo+Van+Tan'"/>
+                                        <h6 class="font-bold text-burgundy text-xs">Võ Văn Tần</h6>
+                                        <p class="text-[11px] text-gray-600">Bí thư Xứ ủy Nam Kỳ</p>
+                                    </div>
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center">
+                                        <img src="https://images.openai.com/static-rsc-4/L-QoZeeQB_yQH-rRDgOyOucC7VtN7DgTotrVyQfPq6NVg-dBHnlOGnpC_vXL9kx_Tc9PkCtnqFApBI06r7AM2ITyFupItJE7OEgeZDvSJSMf-LpadT_h3o-ZNzrImFzbBQo62n9KhZ06HCfeTN77R-IF8zOcoAnf-9KI_rvHKPg?purpose=inline" 
+                                             alt="Chân dung Nguyễn Văn Cừ" 
+                                             class="w-20 h-28 object-cover rounded-md mx-auto border border-gold mb-2"
+                                             onerror="this.src='https://placehold.co/180x240/3f0b15/c59b27?text=Nguyen+Van+Cu'"/>
+                                        <h6 class="font-bold text-burgundy text-xs">Nguyễn Văn Cừ</h6>
+                                        <p class="text-[11px] text-gray-600">Tổng Bí thư Đảng</p>
+                                    </div>
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center">
+                                        <img src="https://images.openai.com/static-rsc-4/ypWPcY_yTmRNO3SFa-oyTjFAnfgTLRLH7xD1-y44fhz6zdhxsOZc1l1xbffXbiND1PrB1GeCM9PLbCYk3Lo1L_PLHf0Hu4Gz_0bya3s58ObYnlDqUMKFrs-3dJCShx48GEcyfgOFig2NC5w8_ZYBwYF-Ep9jmYCc-gGDWNuZzK4?purpose=inline" 
+                                             alt="Chân dung Hà Huy Tập" 
+                                             class="w-20 h-28 object-cover rounded-md mx-auto border border-gold mb-2"
+                                             onerror="this.src='https://placehold.co/180x240/3f0b15/c59b27?text=Ha+Huy+Tap'"/>
+                                        <h6 class="font-bold text-burgundy text-xs">Hà Huy Tập</h6>
+                                        <p class="text-[11px] text-gray-600">Tổng Bí thư Đảng</p>
+                                    </div>
+                                    <div class="bg-cream-200/80 p-3 rounded-xl border border-gold/30 text-center">
+                                        <img src="https://images.openai.com/static-rsc-4/4tQVJRoPY2xO3Pi6KPhnG7J_93ztd061YtECUby4P0kwjeCxVruezs6WQzNc77oD9fkr-prw15HTmwwl2ZxyjkmxbgD6XK-UfXWp_TYpmUMx69ZNdxlh9iuS1xUAVh0Vn-PtRWgGEa2ezdDF6r5PEykLCKZjDX1PwmiXPJtWa_Q?purpose=inline" 
+                                             alt="Chân dung Phan Đăng Lưu" 
+                                             class="w-20 h-28 object-cover rounded-md mx-auto border border-gold mb-2"
+                                             onerror="this.src='https://placehold.co/180x240/3f0b15/c59b27?text=Phan+Dang+Luu'"/>
+                                        <h6 class="font-bold text-burgundy text-xs">Phan Đăng Lưu</h6>
+                                        <p class="text-[11px] text-gray-600">Ủy viên Ban Chấp hành Trung ương Đảng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PHẦN IV: CƠ SỞ IN ẤN HẦM B -->
+                    <article id="site-4" class="bg-cream-100 border-2 border-gold/30 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-gold">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div class="lg:col-span-5 relative min-h-[280px] lg:min-h-full">
+                                <!-- Ảnh chính: Không gian di tích Hầm B Ngô Gia Tự -->
+                                <img src="https://images.openai.com/static-rsc-4/WIdGFZJ31tod91d-Yt5dUEViUww7SNDvtVNhxAiFbSLwSmqDkQ4Eqb3VR0z8VBSJvIRKl2o5JF_PUamXh9LlQgocZw8K2cOOBgd2tM6X2EQN9Z1gHyO0uLC4YMtcwODmbz3VmPZBoZ78ybOXh5tYglzNWGUFVGPPSfY0hNG7j6I?purpose=inline" 
+                                     alt="Di tích Cơ sở in ấn Hầm B Ngô Gia Tự Quận 10" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/800x600/3f0b15/c59b27?text=Co+So+In+Ham+B+Ngo+Gia+Tu'"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-burgundy-950/80 via-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-burgundy-950/20"></div>
+                                <span class="absolute top-4 left-4 bg-burgundy text-gold font-serif font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-gold/40">
+                                    PHẦN IV
+                                </span>
+                                <span class="absolute bottom-3 left-3 bg-burgundy-950/80 text-cream-100 text-[11px] px-2.5 py-1 rounded border border-gold/20">
+                                    <i class="fa-solid fa-camera mr-1 text-gold"></i>Di tích Hầm B (122/8 Ngô Gia Tự)
+                                </span>
+                            </div>
+                            <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-burgundy-900">CƠ SỞ IN ẤN HẦM B</h3>
+                                    <p class="text-gold-dark font-medium text-sm mt-1">Hội Ủng hộ Vệ quốc đoàn & Ban Tuyên huấn Thành ủy Sài Gòn – Chợ Lớn</p>
+                                    
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>122/8 Ngô Gia Tự, Q.10</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-calendar mr-1"></i>Xây dựng: 1952</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-award mr-1"></i>Di tích Quốc Gia (16/11/1988)</span>
+                                    </div>
+                                    <p class="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                                        Căn hầm bí mật được đào tinh vi dưới nền nhà dân từ tháng 2/1952. Nơi đây từng là xưởng in ấn tuyệt mật của Hội ủng hộ Vệ quốc đoàn và Thành ủy Sài Gòn – Chợ Lớn trong những năm kháng chiến chống Pháp.
+                                    </p>
+                                </div>
+
+                                <button onclick="toggleAccordion('acc-4')" class="mt-6 inline-flex items-center justify-between px-5 py-3 rounded-xl bg-burgundy text-gold font-semibold text-sm hover:bg-burgundy-light transition-colors w-full sm:w-auto">
+                                    <span id="btn-text-acc-4">Xem thiết bị in & Truyền đơn tư liệu</span>
+                                    <i id="icon-acc-4" class="fa-solid fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Detail Section -->
+                        <div id="acc-4" class="hidden border-t border-gold/30 bg-cream-50 p-6 sm:p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatgDxWO9ejk42ErdLo8n3TV_7PdotG_2FQN1yiqgLp-oJtMh3OkSS-swc&s=10" 
+                                         alt="Ảnh tư liệu Máy in thủ công và phương tiện in ấn bí mật Hầm B" 
+                                         class="w-full h-48 object-cover rounded-xl border border-gold/40 shadow historical-img"
+                                         onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=Vintage+Printing+Press+Ham+B'"/>
+                                    <p class="text-xs text-gray-600 italic text-center">Máy in rô-nê-ô và phương tiện in ấn thủ công đặt dưới lòng Hầm B.</p>
+                                </div>
+                                <div class="space-y-3">
+                                    <img src="https://file.qdnd.vn/data/images/13/2020/09/11/viethungvn/untitled123644557pm.jpg?dpi=150&quality=100&w=575" 
+                                         alt="Tài liệu truyền đơn cách mạng được in ấn tại Hầm B giai đoạn 1952-1954" 
+                                         class="w-full h-48 object-cover rounded-xl border border-gold/40 shadow historical-img"
+                                         onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=Revolutionary+Document+Leaflets'"/>
+                                    <p class="text-xs text-gray-600 italic text-center">Các bản truyền đơn, chỉ thị của Thành ủy Sài Gòn – Chợ Lớn phát hành từ Hầm B.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PHẦN V: CHIẾN THẮNG LÁNG LE - BÀU CÒ -->
+                    <article id="site-5" class="bg-cream-100 border-2 border-gold/30 rounded-2xl overflow-hidden shadow-xl transition-all hover:border-gold">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div class="lg:col-span-5 relative min-h-[280px] lg:min-h-full">
+                                <!-- Ảnh chính: Tượng đài truyền thống Láng Le - Bàu Cò -->
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1-uMWUBehiAoKioyuynsV-lYGMUWktbY5UKtLtfHsYg&s=10" 
+                                     alt="Tượng đài Khu di tích Lịch sử Chiến thắng Láng Le - Bàu Cò" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/800x600/3f0b15/c59b27?text=Tuong+Dai+Lang+Le+Bau+Co'"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-burgundy-950/80 via-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-burgundy-950/20"></div>
+                                <span class="absolute top-4 left-4 bg-burgundy text-gold font-serif font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-gold/40">
+                                    PHẦN V
+                                </span>
+                                <span class="absolute bottom-3 left-3 bg-burgundy-950/80 text-cream-100 text-[11px] px-2.5 py-1 rounded border border-gold/20">
+                                    <i class="fa-solid fa-camera mr-1 text-gold"></i>Tượng đài Láng Le – Bàu Cò
+                                </span>
+                            </div>
+                            <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-burgundy-900">CHIẾN THẮNG LÁNG LE – BÀU CÒ</h3>
+                                    <p class="text-gold-dark font-medium text-sm mt-1">Căn cứ Vườn Thơm – Bà Vụ (Tân Nhựt, Bình Chánh)</p>
+                                    
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>Xã Tân Nhựt, Bình Chánh</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-calendar mr-1"></i>Trận đánh ngày 15/04/1948</span>
+                                        <span class="bg-burgundy/10 text-burgundy font-medium px-3 py-1 rounded-full"><i class="fa-solid fa-award mr-1"></i>Di tích Lịch sử cấp Thành phố</span>
+                                    </div>
+                                    <p class="mt-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+                                        Trận đánh huyền thoại bẻ gãy cuộc càn quét quy mô lớn của quân Pháp vào căn cứ kháng chiến phía Tây Nam Sài Gòn ngày 15/04/1948.
+                                    </p>
+                                </div>
+
+                                <button onclick="toggleAccordion('acc-5')" class="mt-6 inline-flex items-center justify-between px-5 py-3 rounded-xl bg-burgundy text-gold font-semibold text-sm hover:bg-burgundy-light transition-colors w-full sm:w-auto">
+                                    <span id="btn-text-acc-5">Xem địa danh & Chỉ huy trận đánh</span>
+                                    <i id="icon-acc-5" class="fa-solid fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Detail Section -->
+                        <div id="acc-5" class="hidden border-t border-gold/30 bg-cream-50 p-6 sm:p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <img src="https://vocongton.wordpress.com/wp-content/uploads/2024/09/di-tich-lich-su-rung-tram-ba-vu-02.jpg" 
+                                         alt="Vùng đầm lầy ngập nước Láng Le Bàu Cò căn cứ Vườn Thơm" 
+                                         class="w-full h-44 object-cover rounded-xl border border-gold/40 shadow"
+                                         onerror="this.src='https://placehold.co/600x400/3f0b15/c59b27?text=Vuon+Thom+Base+Landscape'"/>
+                                    <p class="text-xs text-gray-600 italic text-center">Vùng đất trũng ngập nước địa hình hiểm trở thuộc căn cứ Vườn Thơm – Bà Vụ.</p>
+                                </div>
+                                <div class="bg-cream-200/80 p-5 rounded-xl border border-gold/30 flex flex-col justify-center space-y-3">
+                                    <h5 class="font-serif text-burgundy font-bold text-base"><i class="fa-solid fa-user-ninja mr-2"></i>Chỉ Huy Lực Lượng Vũ Trang</h5>
+                                    <ul class="text-xs sm:text-sm text-gray-700 space-y-2">
+                                        <li><strong>Nguyễn Văn Hượt:</strong> Chi đội phó Chi đội 15, kiêm Tỉnh đội trưởng Tỉnh Chợ Lớn trực tiếp chỉ huy trận đánh.</li>
+                                        <li><strong>Lê Tấn Ích:</strong> Tiểu đoàn trưởng kiêm Chính trị viên Tiểu đoàn Ngô Gia Tự (Trung đoàn Phạm Hồng Thái).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TỔNG KẾT & Ý NGHĨA LỊCH SỬ -->
+        <section id="summary-section" class="py-20 bg-burgundy-950 text-cream-100 relative overflow-hidden">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-12">
+                    <span class="text-gold font-semibold uppercase tracking-widest text-xs">Giá trị di sản</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gold-gradient mt-1">4. Tổng Kết & Ý Nghĩa Lịch Sử</h2>
+                    <div class="w-20 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-burgundy-900/80 p-8 rounded-2xl border border-gold/30 shadow-xl space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-gold/20 flex items-center justify-center text-gold text-2xl mb-4">
+                            <i class="fa-solid fa-box-archive"></i>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-gold">Giá Trị Chung Về Lịch Sử</h3>
+                        <p class="text-sm text-cream-200 leading-relaxed text-justify">
+                            Các di tích lịch sử Sài Gòn – Gia Định là những chứng tích kiên cường phản ánh trọn vẹn quá trình đấu tranh chống thực dân Pháp gian khổ, bảo vệ độc lập dân tộc. Từ những khám lớn, trường bắn tàn khốc đến các căn hầm in bí mật hay chiến trường ngập nước, tất cả đã kết tinh thành pho sử vàng rực rỡ của quân dân Nam Bộ.
+                        </p>
+                    </div>
+
+                    <div class="bg-burgundy-900/80 p-8 rounded-2xl border border-gold/30 shadow-xl space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-gold/20 flex items-center justify-center text-gold text-2xl mb-4">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-gold">Ý Nghĩa Với Thế Hệ Hôm Nay</h3>
+                        <p class="text-sm text-cream-200 leading-relaxed text-justify">
+                            Những địa chỉ đỏ là ngọn đuốc thắp sáng lòng yêu nước, nhắc nhở thế hệ trẻ hôm nay trân trọng từng phút giây hòa bình. Việc số hóa và lan tỏa không gian bảo tàng số giúp tuổi trẻ tiếp cận ký ức dân tộc một cách sống động, từ đó nuôi dưỡng lý tưởng sống cao đẹp và tinh thần cống hiến dựng xây đất nước.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER / CREDITS -->
+    <footer class="bg-burgundy-950 border-t border-gold/30 py-8 text-cream-200 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+            <p class="font-serif text-gold tracking-wide text-sm sm:text-base font-semibold">
+                DỰ ÁN BẢO TÀNG SỐ DI TÍCH LỊCH SỬ - ĐỊA CHỈ ĐỎ Ở SÀI GÒN
+            </p>
+            <div class="text-xs sm:text-sm text-cream-300/90 font-light">
+                Thực hiện bởi: <span class="text-gold font-medium">Nguyễn Đắc Gia Linh, Hồ Ngọc Minh Anh, Nguyễn Gia Hân, Vương Hiếu Lâm, Lê Nguyễn Khánh Ngọc, Phạm Trần Mỹ Quân - 11A8 THPT Lê Quý Đôn </span>
+            </div>
+            <p class="text-[11px] text-cream-300/50 uppercase tracking-widest mt-2">© 2026 Hồ Chí Minh City History Exhibition</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FOR INTERACTION -->
+    <script>
+        function toggleAccordion(accId) {
+            const accElement = document.getElementById(accId);
+            const btnText = document.getElementById('btn-text-' + accId);
+            const icon = document.getElementById('icon-' + accId);
+
+            if (accElement.classList.contains('hidden')) {
+                accElement.classList.remove('hidden');
+                btnText.innerText = 'Thu gọn chi tiết';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                accElement.classList.add('hidden');
+                btnText.innerText = 'Xem chi tiết di tích';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function scrollToSite(siteId) {
+            const siteElement = document.getElementById(siteId);
+            if (siteElement) {
+                siteElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                const accId = 'acc-' + siteId.split('-')[1];
+                const accElement = document.getElementById(accId);
+                if (accElement && accElement.classList.contains('hidden')) {
+                    toggleAccordion(accId);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
